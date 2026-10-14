@@ -13,13 +13,14 @@
 
 // variable used for LED blink pattern
 int blinkCode = -1;
+int pin = 3;
 
 void setup() {
   Serial.begin(9600);  // initialise the serial communication
 
 
   // initialize digital pin LED_BUILTIN as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(pin, OUTPUT);
 }
 
 void loop() {
@@ -56,8 +57,8 @@ void loop() {
       break;
   }
 
-  digitalWrite(LED_BUILTIN, HIGH);  // turn the LED on (HIGH is the voltage level)
+  digitalWrite(pin, HIGH);  // turn the LED on (HIGH is the voltage level)
   delay(onDelay);                   // wait for the delayed time
-  digitalWrite(LED_BUILTIN, LOW);   // turn the LED off by making the voltage LOW
+  digitalWrite(pin, LOW);   // turn the LED off by making the voltage LOW
   delay(offDelay);                  // wait for the delayed time
 }
