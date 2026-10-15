@@ -36,8 +36,8 @@ void setup() {
   // your number.
   // The last parameter (e.g. 9600) is the speed of the communication. It has to
   // correspond to the value passed to Serial.begin() in your Arduino sketch.
-  port = new Serial(this, Serial.list()[1], 9600);
-
+  port = new Serial(this, Serial.list()[2], 9600);
+  port.bufferUntil('\n');
   // If you know the name of the port used by the Arduino board, you can specify
   // it directly like this.
   //port = new Serial(this, "COM1", 9600);
@@ -63,6 +63,12 @@ void draw() {
   
 }
 
+void serialEvent(Serial p) {
+  String incoming = p.readStringUntil('\n');
+  if (incoming != null) {
+    print("From Arduino: " + incoming);
+  }
+}
 
 void oscEvent(OscMessage theOscMessage) {
   /* check if theOscMessage has the address pattern we are looking for. */
@@ -71,9 +77,9 @@ void oscEvent(OscMessage theOscMessage) {
     /* check if the typetag is the right one. */
     if (theOscMessage.checkTypetag("f")) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
-      float firstValue = theOscMessage.get(0).floatValue();
-      print("### received an osc message /test with typetag f.");
-      println(" values: "+firstValue);
+      float firstValue = theOscMessage.get(0).floatValue(); //maybe mod this
+      //print("### received an osc message /test with typetag f.");
+      //println(" values: "+firstValue);
 
       updateArduino((int)firstValue);
       return;
