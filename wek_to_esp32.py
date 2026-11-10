@@ -2,7 +2,7 @@ import serial
 from pythonosc.dispatcher import Dispatcher
 from pythonosc.osc_server import BlockingOSCUDPServer
 
-esp = serial.Serial("/dev/cu.usbserial-0001", 9600)
+esp = serial.Serial("/dev/cu.usbserial-0001", 1152200)
 
 def on_output(address, *args):
     cls = int(round(args[0]))

@@ -26,13 +26,14 @@ latest_result = None
 
 
 def on_result(result, output_image, timestamp_ms):
-  print(f"{timestamp_ms}: {len(result.hand_landmarks)} hand(s)")
+  # print(f"{timestamp_ms}: {len(result.hand_landmarks)} hand(s)")
   global latest_result
   latest_result = result
 
   if result.hand_landmarks:
       for hand_landmark in result.hand_landmarks:
           normalized_hands = normalize(hand_landmark)
+          print(f"Number of inputs: {len(normalized_hands)}")
           wekinator.send_message("/wek/inputs", normalized_hands)
   else:
       wekinator.send_message("/wek/inputs", [0] * 126)  # Send zeros if no hands detected
@@ -63,7 +64,7 @@ with HandLandmarker.create_from_options(options) as landmarker:
    while cam.isOpened():
     success, image = cam.read()
     if not success:
-      print("Ignoring empty camera frame.")
+      # print("Ignoring empty camera frame.")
       break
     ts = time.monotonic_ns() // 1_000_000
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)    
